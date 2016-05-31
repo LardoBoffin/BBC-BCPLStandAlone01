@@ -5,7 +5,51 @@ Having finally got access to the Stand Alone Generator (SAG) guide (http://www.s
 
 It is actually surprisingly simple (for a small program anyway). This project shows how it is done.
 
-Summarised process from the guide: - 
+I have included the following files: - 
+
+$.COMPILE - the file used to build and deploy the runtime file
+
+$.TESTRT - the program to be deployed
+
+BCPLS.ssd the disc image of the BCPL source files
+
+BCPLSAG - the disc image of the runtime files and deployed files (I added EX to this to avoid messing around with *LIB)
+
+
+$.TESTRT - this file needs a bit of futher explanation, as below.
+
+      //Trivial program to test the Stand alone generator
+      //
+      //Filename TESTRT
+      //
+      //29/05/2016
+      //
+      //v1.0
+      
+      NEEDS "VDU"
+      NEEDS "INTERP"
+      NEEDS "MODE"
+      NEEDS "RUNPROG"
+      
+      GET "LIBHDR"
+      
+      LET START() BE
+      $(
+         MODE(0)
+         VDU("19,1,2")
+         VDU("17,1")
+         WRITES("*N")
+         WRITES("Hello world from BCPL Runtime!")
+         WRITES("*N")
+         RUNPROG("**BASIC")
+         STOP(0)
+      $)
+
+The key thing to note with this file is the additional NEEDS sections (see points 3, 4 and 7 below) at the start and the RUNPROG (see point 6 below) at the end.
+The NEEDS listing tells the compiler which sections of the runtime library to include when it is being built. The RUNPROG although not strictly necessary gracefully drops the user back into BASIC after running the program.
+
+
+Summarised stand along generation process from the guide: - 
 
 1) Create a very simple BCPL program and test it
 
@@ -61,11 +105,14 @@ The complete sequence to build and deploy this file is therefore: -
       Load BCPLS into drive 0
       Load BCPLSAG into drive 1 (we don't need BCPLT for this project)
       On drive 0 type "BCPL TESTRT RT NONAMES"
-      Swtich to drive 1 and "SAVE RT"
+      Switch to drive 1 and "SAVE RT"
       On drive 1 type "EX COMPILE RT HELLO"
 
 After this has finished running you end up with a file called HELLO that can be run outside of BCPL by typing *HELLO
 
-When run it should change to MODE 0, turn the text green and say hello. It then calls RUNPROG("**BASIC") to terminate and return control to basic but this could be anything.
+In terms of file sizes the initial RT (compiled file) is &90 (144) bytes long and after being converted to runtime is &F82 (3970) bytes long. This is therefore &EF2 (3826) bytes of interpreter and function code. While this is quite a jump in size it is impressive given that it includes the BCPL interpreter! Don't be expecting to do anything useful in MODE 0 on a non-expanded machine though...
+
+
+When run the HELLO program should change the screen to MODE 0, turn the text green and say hello. It then calls RUNPROG("**BASIC") to terminate and return control to BASIC.
 
 There are a whole raft of options and further settings but this is good enough for now for a very simple demo.
