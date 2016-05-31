@@ -110,7 +110,7 @@ The complete sequence to build and deploy this file is therefore: -
 
 After this has finished running you end up with a file called HELLO that can be run outside of BCPL by typing *HELLO
 
-In terms of file sizes the initial RT (compiled file) is &90 (144) bytes long and after being converted to runtime is &F82 (3970) bytes long. This is therefore &EF2 (3826) bytes of interpreter and function code. While this is quite a jump in size it is impressive given that it includes the BCPL interpreter! Don't be expecting to do anything useful in MODE 0 on a non-expanded machine though...
+In terms of file sizes the initial RT (compiled file) is &90 (144) bytes long and after being converted to runtime is &F82 (3970) bytes long. This is therefore &EF2 (3826) bytes of interpreter and function code. While this is quite a jump in size it is impressive given that it includes the BCPL interpreter! Don't be expecting to do anything useful in MODE 0 on a non-expanded machine though... Adding further function calls will increase the size of the end file as it will need to include more library functions. 
 
 
 When run the HELLO program should change the screen to MODE 0, turn the text green and say hello. It then calls RUNPROG("**BASIC") to terminate and return control to BASIC.
