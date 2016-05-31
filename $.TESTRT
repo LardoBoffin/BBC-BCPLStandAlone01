@@ -1,0 +1,29 @@
+//Trivial program to test the Stand alone generator
+//
+//Filename TESTRT
+//
+//29/05/2016
+//
+//v1.0
+
+NEEDS "VDU"
+NEEDS "INTERP"
+NEEDS "MODE"
+NEEDS "RUNPROG"
+
+GET "LIBHDR"
+
+LET START() BE
+$(
+   MODE(0)
+   VDU("19,1,2")
+   VDU("17,1")
+   WRITES("*N")
+   WRITES("Hello world from BCPL Runtime!")
+   WRITES("*N")
+   RUNPROG("**BASIC")
+   STOP(0)
+$)
+
+
+
