@@ -52,11 +52,17 @@ All of stages 9 through to 14 are managed by a single command file used in EX. I
   The DELETE lines tidies up an unwanted temp file.
   The FIXCIN line handles points 13 and 14.
 
-Cautionary note - if you are using a 100k disc (or TurboMMC etc.) you may run out of physical space quite quickly on the runtime image as there are some large files in there.
-
 So assuming that our original BCPL compiled file is called RT (and the EX command file is called COMPILE) I would call - 
 
-EX COMPILE RT HELLO
+      EX COMPILE RT HELLO
+
+The complete sequence to build and deploy this file is therefore: - 
+
+      Load BCPLS into drive 0
+      Load BCPLSAG into drive 1 (we don't need BCPLT for this project)
+      On drive 0 type "BCPL TESTRT RT NONAMES"
+      Swtich to drive 1 and "SAVE RT"
+      On drive 1 type "EX COMPILE RT HELLO"
 
 After this has finished running you end up with a file called HELLO that can be run outside of BCPL by typing *HELLO
 
